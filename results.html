@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quel est mon jury ?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
+
+        :root {
+            --font-size: 100px
+        }
+
+        * {
+            font-family: 'Ubuntu Mono', monospace;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            font-size: 40px;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 2;
+        }
+
+        .box>div {
+            margin: 40px 0;
+            padding: 20px;
+            background-color: #ffffffaa;
+        }
+
+        .box>div:first-of-type {
+            color: #e9551bb2;
+        }
+
+        #particles_canvas {
+            margin: 0%;
+            padding: 0%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            /*overflow: hidden;*/
+        }
+    </style>
+</head>
+
+<body id="body" onresize="resizeCanvas()">
+    <canvas id="particles_canvas"></canvas>
+    <div class="box">
+        <div id="title">COMXXXX</div>
+        <div id="phrase">...</div>
+    </div>
+    <script src="/script.js"></script>
+    <script>
+        const getMax = object => {
+            return Object.keys(object).filter(x => {
+                return object[x] == Math.max.apply(null,
+                    Object.values(object));
+            });
+        };
+
+        var n = window.location.href.split('/')[4]
+        fetch(`/infos/${n}`).then(x => x.json()).then(x => {
+            r = getMax(x);
+            if (r.length == 1) {
+                phrase = `jury de ${r[0].toUpperCase()} !`;
+                start();
+            }
+            else if (r.length > 1) {
+                phrase = "Il n'y a pas encore assez de résultats pour cette commission. Revenez plus tard !"
+            }
+            else {
+                phrase = "Il y a eu une erreur inattendue :("
+            }
+            document.getElementById('title').innerText = `COM${n}`;
+            document.getElementById("phrase").innerText = phrase;
+        })
+    </script>
+</body>
+
+</html>

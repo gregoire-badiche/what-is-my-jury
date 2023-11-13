@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quel est mon jury ?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
+
+        :root {
+            --font-size: 100px
+        }
+
+        * {
+            font-family: 'Ubuntu Mono', monospace;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            font-size: 40px;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 2;
+        }
+
+        .box>div {
+            margin: 40px 0;
+            padding: 20px;
+            background-color: #ffffffaa;
+        }
+
+        .box>div:first-of-type {
+            color: #e9551bb2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div>Déjà fait !</div>
+        <div>Vous avez déjà eu vos résultats. Ne réessayez pas de rentrer vos informations, vous fausseriez les
+            résultats&nbsp;!</div>
+    </div>
+</body>
+
+</html>

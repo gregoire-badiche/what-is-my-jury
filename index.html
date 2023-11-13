@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quel est mon jury ?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
+
+        :root {
+            --font-size: 100px
+        }
+
+        * {
+            font-family: 'Ubuntu Mono', monospace;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            font-size: 40px;
+            text-align: center;
+        }
+
+        .box>div {
+            margin: 50px;
+        }
+
+        .text {
+            font-size: 20px;
+        }
+
+        .imp {
+            color: #e9551b;
+        }
+
+        .button {
+            cursor: pointer;
+            color: #1b7be9;
+        }
+
+        .footer {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div>
+            Quel est mon jury ?
+        </div>
+        <div class="text">
+            <span class="imp">Quel est mon jury ?</span> vous permet d'essayer de connaître la spécialité de votre jury
+            de grand oral par corrélation
+            avec les personnes qui ont le même jury que vous, et une spécialité en commun, grâce au <span
+                class="imp">numéro de commission</span> sur votre convocation (centre-gauche). <span class="imp">Je ne
+                certifie absolument pas les résultats !!</span> Ne venez pas vous plaindre si vous êtes tombés sur un
+            jury de l'autre spécialité, mais n'hésitez pas à me <span class="button" id="b">remercier</span> si cela a
+            fonctionné. Maintenant que vous avez
+            lu cela, vous pouvez cliquer sur le mot "remercier" dans la phrase d'avant pour continuer. Notez que pour
+            avoir des résultats, il faut que plusieurs personnes remplissent la page ! N'hésitez pas à partager le lien
+            avec le reste du lycée. <span class="imp">N'entrez qu'une fois vos informations, pour ne pas fausser les
+                résultats !</span> Si vous
+            souhaitez revenir vérifier les résultats, le chemin est :<br>[url]/results/[chiffres de la commission]
+        </div>
+    </div>
+    <div class="footer">
+        by <span class="button" id="b2">@greeegoire</span>
+    </div>
+    <script>
+        window.onload = () => {
+            document.getElementById("b").onclick = () => { window.location = "/select" }
+            document.getElementById("b2").onclick = () => { window.location = "https://instagram.com/greeegoire" }
+        }
+    </script>
+</body>
+
+</html>

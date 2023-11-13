@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quel est mon jury ?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
+
+        :root {
+            --font-size: 100px
+        }
+
+        * {
+            font-family: 'Ubuntu Mono', monospace;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            font-size: 40px;
+            text-align: center;
+        }
+
+        .box>div {
+            margin: 40px 0;
+        }
+
+        .box>div:last-of-type {
+            margin-top: 80px;
+        }
+
+        input {
+            font-size: calc(var(--font-size) - 10);
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+            font-family: 'Ubuntu Mono', monospace;
+            color: #e9551b;
+            caret-color: transparent;
+            outline: none;
+            border: none;
+            background-color: transparent;
+        }
+
+        select {
+            font-size: calc(var(--font-size) - 10);
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+            font-family: 'Ubuntu Mono', monospace;
+            color: #e9551b;
+            outline: none;
+            border: none;
+            background-color: transparent;
+            appearance: none;
+            text-align: left;
+            min-width: 0;
+            cursor: pointer;
+        }
+
+        select:first-of-type {
+            text-align: right;
+        }
+
+        option {
+            background-color: transparent;
+        }
+
+        input:focus {
+            border-bottom: 2px solid #000000;
+            margin-bottom: -2px;
+        }
+
+        .hidden {
+            visibility: hidden;
+            position: fixed;
+            top: 1000%;
+            left: 1000%;
+            font-size: 40px;
+        }
+
+        .word {
+            display: inline-block;
+            white-space: nowrap;
+            color: #e9551b;
+        }
+
+        .button {
+            padding: 10px;
+            cursor: pointer;
+            transition: border-color .5s linear;
+            border: 4px solid #ffffff;
+            color: #818181;
+        }
+
+        .button.activated {
+            border: 4px solid #e9551bb2;
+            color: #000000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hidden" id="t4">1234</div>
+    <div class="box">
+        <div>
+            Mon numéro de commission est <div class="word" id="w1">COM<input type="text" maxlength="4"
+                    placeholder="1234" minlength="4" id="com" autocomplete="off"></div>
+        </div>
+        <div>
+            <div>
+                et j'ai comme spécialités
+            </div>
+            <div>
+                <select name="spe1" id="spe1">
+                    <option value="" class="spedummy"></option>
+                    <option value="maths">maths</option>
+                    <option value="spc">SPC</option>
+                    <option value="amc">AMC</option>
+                    <option value="nsi">NSI</option>
+                    <option value="svt">SVT</option>
+                    <option value="ses">SES</option>
+                    <option value="hlp">HLP</option>
+                    <option value="hggsp">HGGSP</option>
+                    <option value="llce">LLCE</option>
+                </select>
+                et
+                <select name="spe2" id="spe2"></select>
+            </div>
+        </div>
+        <div>
+            <span class="button" id="b">
+                voir les résultats
+            </span>
+        </div>
+    </div>
+    <script>
+        var com = document.getElementById("com");
+        var w4l = document.getElementById("t4").offsetWidth;
+        var b = document.getElementById("b");
+        var spe1 = document.getElementById("spe1");
+        var spe2 = document.getElementById("spe2");
+
+        const setCookie = (name, value, days) => {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        window.onload = () => {
+            com.style.width = w4l + "px";
+            document.getElementById("w1").style.width = document.getElementById("w1").offsetWidth + 'px';
+            document.getElementById("spe2").innerHTML = document.getElementById("spe1").innerHTML;
+            document.getElementsByClassName("spedummy")[0].innerHTML = "art";
+            document.getElementsByClassName("spedummy")[1].innerHTML = "EPS";
+        }
+
+        com.oninput = (e) => {
+            if (!/[0-9]/.test(e.data) && !(e.data == null)) com.value = com.value.slice(0, -1);
+            com.style.width = com.value.length > 0 ? com.value.length * (w4l / 4) + 'px' : w4l + 'px';
+        }
+
+        spe1.onchange = spe2.onchange = com.onchange = () => {
+            if (spe1.value != spe2.value && spe1.value && spe2.value && com.value.length == 4) {
+                b.classList.add("activated");
+            }
+        }
+
+        b.onclick = () => {
+            if (spe1.value != spe2.value && spe1.value && spe2.value && com.value.length == 4) {
+                console.log(JSON.stringify({
+                    "com": com.value,
+                    "spe1": spe1.value,
+                    "spe2": spe2.value
+                }));
+                fetch("/answer", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        "com": com.value,
+                        "spe1": spe1.value,
+                        "spe2": spe2.value
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                })
+                .then(x => {
+                    setCookie("done", "1", 40);
+                    window.location.replace(`/results/${com.value}`);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
